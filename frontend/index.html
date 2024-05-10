@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener By MS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .shortened-url {
+            margin-top: 20px;
+            font-size: 18px;
+            word-break: break-all;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <form id="shortenForm">
+            <label for="longUrl">Enter Long URL:</label><br>
+            <input type="text" id="longUrl" name="longUrl" placeholder="Enter URL Here" required><br><br>
+            <button type="submit">Shorten URL</button>
+        </form>
+        <div class="shortened-url" id="shortUrlContainer" style="display: none;">
+            <p>Shortened URL:</p>
+            <a id="shortUrl" target="_blank"></a>
+        </div>
+        <footer>
+            Developed By: Meet Sharma<br>
+            Email: <a href="mailto:meetsharma.jpr@gmail.com">meetsharma.jpr@gmail.com</a>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript for handling form submission and AJAX request
+        document.getElementById('shortenForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const longUrl = document.getElementById('longUrl').value;
+
+            // Send AJAX request to backend
+            fetch('/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ longUrl: longUrl })
+            })
+            .then(response => response.text())
+            .then(shortUrl => {
+                // Display the shortened URL
+                document.getElementById('shortUrl').href = shortUrl;
+                document.getElementById('shortUrl').innerText = shortUrl;
+                document.getElementById('shortUrlContainer').style.display = 'block';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
