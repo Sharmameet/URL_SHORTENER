@@ -23,7 +23,7 @@ app.post('/shorten', (req, res) => {
     }
 
     const shortCode = generateShortCode();
-    const shortUrl = `http://localhost:${port}/${shortCode}`;
+    const shortUrl = `http://${req.hostname}/${shortCode}`;
 
     urlDatabase[shortCode] = longUrl;
 
